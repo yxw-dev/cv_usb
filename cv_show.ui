@@ -21,66 +21,15 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="8">
-     <widget class="QLabel" name="label_10">
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
+    <item row="1" column="8">
+     <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
     </item>
-    <item row="0" column="5">
-     <widget class="QLabel" name="label_3">
+    <item row="3" column="9">
+     <widget class="QSlider" name="verticalSlider">
       <property name="minimumSize">
        <size>
-        <width>81</width>
-        <height>18</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>40</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>宽度设置：</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="6">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
-    </item>
-    <item row="0" column="7">
-     <widget class="QLabel" name="label_4">
-      <property name="minimumSize">
-       <size>
-        <width>81</width>
-        <height>18</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>40</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>高度设置：</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0" colspan="4">
-     <widget class="QSlider" name="horizontalSlider">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>650</width>
-        <height>25</height>
+        <width>0</width>
+        <height>0</height>
        </size>
       </property>
       <property name="maximumSize">
@@ -89,24 +38,50 @@
         <height>16777215</height>
        </size>
       </property>
-      <property name="maximum">
-       <number>99</number>
-      </property>
-      <property name="pageStep">
-       <number>1</number>
-      </property>
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Vertical</enum>
       </property>
       <property name="tickPosition">
-       <enum>QSlider::TicksBelow</enum>
+       <enum>QSlider::TicksAbove</enum>
       </property>
      </widget>
     </item>
-    <item row="0" column="8">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_11">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
     </item>
-    <item row="1" column="0" colspan="4">
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="minimumSize">
+       <size>
+        <width>120</width>
+        <height>18</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>正面相机</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="6">
+     <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+    </item>
+    <item row="3" column="0" colspan="4">
      <widget class="QLabel" name="label">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
@@ -128,7 +103,7 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="5" colspan="4">
+    <item row="3" column="5" colspan="4">
      <widget class="QLabel" name="label_2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
@@ -153,48 +128,14 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_5">
-      <property name="minimumSize">
-       <size>
-        <width>120</width>
-        <height>18</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>16777215</height>
-       </size>
-      </property>
+    <item row="5" column="3">
+     <widget class="QLabel" name="label_9">
       <property name="text">
-       <string>正面相机</string>
+       <string/>
       </property>
      </widget>
     </item>
-    <item row="1" column="9">
-     <widget class="QSlider" name="verticalSlider">
-      <property name="minimumSize">
-       <size>
-        <width>22</width>
-        <height>480</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="tickPosition">
-       <enum>QSlider::TicksAbove</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
+    <item row="5" column="2">
      <widget class="QLabel" name="label_6">
       <property name="minimumSize">
        <size>
@@ -213,7 +154,7 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="5" colspan="2">
+    <item row="5" column="5">
      <widget class="QLabel" name="label_7">
       <property name="minimumSize">
        <size>
@@ -232,14 +173,7 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="2">
-     <widget class="QLabel" name="label_9">
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="7">
+    <item row="5" column="7">
      <widget class="QLabel" name="label_8">
       <property name="minimumSize">
        <size>
@@ -258,13 +192,82 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="4">
-     <widget class="Line" name="line">
-      <property name="autoFillBackground">
-       <bool>false</bool>
+    <item row="1" column="7">
+     <widget class="QLabel" name="label_4">
+      <property name="minimumSize">
+       <size>
+        <width>81</width>
+        <height>18</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>高度设置：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="5">
+     <widget class="QLabel" name="label_3">
+      <property name="minimumSize">
+       <size>
+        <width>81</width>
+        <height>18</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>宽度设置：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="4">
+     <widget class="QSlider" name="horizontalSlider">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="maximum">
+       <number>99</number>
+      </property>
+      <property name="pageStep">
+       <number>1</number>
       </property>
       <property name="orientation">
-       <enum>Qt::Vertical</enum>
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::TicksBelow</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="8">
+     <widget class="QLabel" name="label_10">
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </item>
@@ -276,18 +279,14 @@
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>30</height>
+     <height>37</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menufile">
-    <property name="title">
-     <string>file</string>
-    </property>
-    <addaction name="action_1"/>
-    <addaction name="action_2"/>
-    <addaction name="actionExit"/>
-   </widget>
-   <addaction name="menufile"/>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
   </widget>
   <action name="action_1">
    <property name="text">
