@@ -84,7 +84,7 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
 
 
     def drawline(self):
-        print(1)
+        print(2)
     #移动滑块调节指示线位置
     def moveline(self):
         sta_x = self.horizontalSlider.x()
