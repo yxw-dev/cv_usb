@@ -16,6 +16,9 @@
     <height>1600</height>
    </size>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::WheelFocus</enum>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>

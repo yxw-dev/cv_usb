@@ -18,8 +18,8 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
         self.frame2=0
         self.width_step_max = 50
         self.height_step_max = 50
-        self.width_step = 50        #横向两红线间隔默认值
-        self.height_step = 50       #纵向两红线间隔默认值
+        self.width_step = 1        #横向两红线间隔默认值
+        self.height_step = 1       #纵向两红线间隔默认值
         self.doubleSpinBox.setValue(self.height_step)
         self.doubleSpinBox_2.setValue(self.width_step)
         self.cam_time = QtCore.QTimer()
@@ -29,6 +29,7 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
         self.actionExit.triggered.connect(self.close)
         self.action_1.triggered.connect(self.start_grap)
         self.action_2.triggered.connect(self.start_grap2)
+        self.horizontalSlider.valueChanged.connect(self.update)
         self.setFocus()
 
     #键盘监控事件
@@ -41,50 +42,81 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
             self.start_grap2()
         if(event.key() == Qt.Key_A):
             self.horizontalSlider.setValue(self.horizontalSlider.value() - 1)
-            self.drawline()
+            self.update()
         if (event.key() == Qt.Key_D):
             self.horizontalSlider.setValue(self.horizontalSlider.value() + 1)
-            self.drawline()
+            self.update()
         if(event.key() == Qt.Key_W):
             if(self.width_step < self.width_step_max):
                 self.width_step = self.width_step + 1
             else:
                 self.width_step = 0
-            self.drawline()
+            self.update()
             self.doubleSpinBox_2.setValue(self.width_step)
         if (event.key() == Qt.Key_S):
             if (self.width_step > 0):
                 self.width_step = self.width_step - 1
             else:
                 self.width_step = self.width_step_max
-            self.drawline()
+            self.update()
             self.doubleSpinBox_2.setValue(self.width_step)
 
         if (event.key() == Qt.Key_Left):
             self.verticalSlider.setValue(self.verticalSlider.value() + 1)
-            self.drawline()
+            self.update()
         if (event.key() == Qt.Key_Right):
             self.verticalSlider.setValue(self.verticalSlider.value() - 1)
-            self.drawline()
+            self.update()
         if (event.key() == Qt.Key_Up):
             if (self.height_step < self.height_step_max):
                 self.height_step = self.height_step + 1
             else:
                 self.height_step = 0
-            self.drawline()
+            self.update()
             self.doubleSpinBox.setValue(self.height_step)
         if (event.key() == Qt.Key_Down):
             if (self.height_step > 0):
                 self.height_step = self.height_step - 1
             else:
                 self.height_step = self.height_step_max
-            self.drawline()
+            self.update()
             self.doubleSpinBox.setValue(self.height_step)
 
+    def paintEvent(self, event):
+        painter = QPainter()
+        painter.begin(self)
+        self.drawline(painter)
+        painter.end()
+    def drawline(self , p):
+        p.setPen(Qt.red)
+        size = self.size()
+        sta1 = self.label.x() + (self.label.width() /  100) * float(self.horizontalSlider.value()+0.5)
+        sta2 = self.label_2.y() + (self.label_2.height() /  102) * float(99 - self.verticalSlider.value() + 1) + self.menubar.height()
+        step1 = (self.doubleSpinBox_2.value() / 20) * self.label.width()
+        step2 = (self.doubleSpinBox.value() / 15) * self.label_2.height()
+
+        # 绘制纵向指示线（相机一）
+        if (sta1 - step1/2)>self.label.x():
+            p.drawLine(sta1 - step1/2 , self.label.y() , sta1 - step1/2 , self.label.y()+self.label.height())
+        else:
+            p.drawLine(self.label.x() + 1, self.label.y(), self.label.x() + 1, self.label.y() + self.label.height())
+        if (sta1 + step1 / 2) < (self.label.x() + self.label.width()):
+            p.drawLine(sta1 + step1 / 2, self.label.y(), sta1 + step1 / 2, self.label.y() + self.label.height())
+        else:
+            p.drawLine(self.label.x()+ self.label.width() - 1, self.label.y(), self.label.x()+ self.label.width() - 1, self.label.y() + self.label.height())
+
+        #绘制横向指示线（相机二）
+        if (sta2 - step2/2)>(self.label_2.y()+ self.menubar.height()):
+            p.drawLine(self.label_2.x() ,sta2 - step2/2, self.label_2.x() + self.label_2.width(), sta2 - step2/2)
+        else:
+            p.drawLine(self.label_2.x() , self.label_2.y()+ self.menubar.height()-1, self.label_2.x() + self.label_2.width(), self.label_2.y()+ self.menubar.height()-1)
+        if (sta2 + step2/2) < (self.label_2.y() + self.label_2.height()+ self.menubar.height()):
+            p.drawLine(self.label_2.x(), sta2 + step2/2, self.label_2.x() + self.label_2.width(), sta2 + step2/2)
+        else:
+            p.drawLine(self.label_2.x(), self.label_2.y() + self.label_2.height()+ self.menubar.height(), self.label_2.x() + self.label_2.width(), self.label_2.y() + self.label_2.height()+ self.menubar.height())
 
 
-    def drawline(self):
-        print(2)
+
     #移动滑块调节指示线位置
     def moveline(self):
         sta_x = self.horizontalSlider.x()
@@ -98,14 +130,14 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
     def start_grap(self):
         self.start_time1 = time.time()
         self.frame1=0
-        self.cap1 = cv2.VideoCapture(1+ cv2.CAP_DSHOW)
+        self.cap1 = cv2.VideoCapture(0 + cv2.CAP_DSHOW)
         self.cam_time.start(60)
         self.label_5.setText("正面相机：运行")
 
     def start_grap2(self):
         self.start_time2 = time.time()
         self.frame2=0
-        self.cap2 = cv2.VideoCapture(0 + cv2.CAP_DSHOW)
+        self.cap2 = cv2.VideoCapture(0+ cv2.CAP_DSHOW)
         self.cam_time2.start(60)
         self.label_7.setText("侧面相机：运行")
 
@@ -141,7 +173,7 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
             self.label_7.setText("侧面相机：打开失败")
             self.cam_time2.stop()
             return
-        cv2.flip(img_2, 1, img_2)
+        #cv2.flip(img_2, 1, img_2)
         cur_frame = cv2.cvtColor(img_2, cv2.COLOR_BGR2RGB)
         heigt, width = cur_frame.shape[:2]
         pixmap = QImage(cur_frame, width, heigt, QImage.Format_RGB888)
