@@ -16,8 +16,8 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
         self.start_time2 = time.time()
         self.frame1=0
         self.frame2=0
-        self.width_step_max = 50
-        self.height_step_max = 50
+        self.width_step_max = 15
+        self.height_step_max = 15
         self.width_step = 1        #横向两红线间隔默认值
         self.height_step = 1       #纵向两红线间隔默认值
         self.doubleSpinBox.setValue(self.height_step)
@@ -61,6 +61,7 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
             self.update()
             self.doubleSpinBox_2.setValue(self.width_step)
 
+
         if (event.key() == Qt.Key_Left):
             self.verticalSlider.setValue(self.verticalSlider.value() + 1)
             self.update()
@@ -83,37 +84,33 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
             self.doubleSpinBox.setValue(self.height_step)
 
     def paintEvent(self, event):
-        painter = QPainter()
-        painter.begin(self)
-        self.drawline(painter)
-        painter.end()
-    def drawline(self , p):
-        p.setPen(Qt.red)
-        size = self.size()
+        self.drawline()
+
+    def drawline(self):
         sta1 = self.label.x() + (self.label.width() /  100) * float(self.horizontalSlider.value()+0.5)
-        sta2 = self.label_2.y() + (self.label_2.height() /  102) * float(99 - self.verticalSlider.value() + 1) + self.menubar.height()
-        step1 = (self.doubleSpinBox_2.value() / 20) * self.label.width()
+        sta2 = self.label_2.y() + (self.label_2.height() /  100) * float(99 - self.verticalSlider.value() + 0.5)
+        step1 = (self.doubleSpinBox_2.value()/ 20) * self.label.width()
         step2 = (self.doubleSpinBox.value() / 15) * self.label_2.height()
 
         # 绘制纵向指示线（相机一）
         if (sta1 - step1/2)>self.label.x():
-            p.drawLine(sta1 - step1/2 , self.label.y() , sta1 - step1/2 , self.label.y()+self.label.height())
+            self.pushButton1.move(sta1 - step1/2 , self.label.y())
         else:
-            p.drawLine(self.label.x() + 1, self.label.y(), self.label.x() + 1, self.label.y() + self.label.height())
+            self.pushButton1.move(self.label.x() + 1, self.label.y())
         if (sta1 + step1 / 2) < (self.label.x() + self.label.width()):
-            p.drawLine(sta1 + step1 / 2, self.label.y(), sta1 + step1 / 2, self.label.y() + self.label.height())
+            self.pushButton2.move(sta1 + step1 / 2, self.label.y())
         else:
-            p.drawLine(self.label.x()+ self.label.width() - 1, self.label.y(), self.label.x()+ self.label.width() - 1, self.label.y() + self.label.height())
+            self.pushButton2.move(self.label.x()+ self.label.width() - 1)
 
         #绘制横向指示线（相机二）
         if (sta2 - step2/2)>(self.label_2.y()+ self.menubar.height()):
-            p.drawLine(self.label_2.x() ,sta2 - step2/2, self.label_2.x() + self.label_2.width(), sta2 - step2/2)
+            self.pushButton3.move(self.label_2.x() ,sta2 - step2/2)
         else:
-            p.drawLine(self.label_2.x() , self.label_2.y()+ self.menubar.height()-1, self.label_2.x() + self.label_2.width(), self.label_2.y()+ self.menubar.height()-1)
-        if (sta2 + step2/2) < (self.label_2.y() + self.label_2.height()+ self.menubar.height()):
-            p.drawLine(self.label_2.x(), sta2 + step2/2, self.label_2.x() + self.label_2.width(), sta2 + step2/2)
+            self.pushButton3.move(self.label_2.x() , self.label_2.y()-1)
+        if (sta2 + step2/2) < (self.label_2.y() + self.label_2.height()):
+            self.pushButton4.move(self.label_2.x(), sta2 + step2/2)
         else:
-            p.drawLine(self.label_2.x(), self.label_2.y() + self.label_2.height()+ self.menubar.height(), self.label_2.x() + self.label_2.width(), self.label_2.y() + self.label_2.height()+ self.menubar.height())
+            self.pushButton4.move(self.label_2.x(), self.label_2.y() + self.label_2.height())
 
 
 
@@ -133,6 +130,10 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
         self.cap1 = cv2.VideoCapture(0 + cv2.CAP_DSHOW)
         self.cam_time.start(60)
         self.label_5.setText("正面相机：运行")
+        self.pushButton1.resize(1, self.label.height())
+        self.pushButton2.resize(1, self.label.height())
+        self.pushButton1.show()
+        self.pushButton2.show()
 
     def start_grap2(self):
         self.start_time2 = time.time()
@@ -140,6 +141,10 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
         self.cap2 = cv2.VideoCapture(0+ cv2.CAP_DSHOW)
         self.cam_time2.start(60)
         self.label_7.setText("侧面相机：运行")
+        self.pushButton3.resize(self.label_2.width(), 1)
+        self.pushButton4.resize(self.label_2.width(), 1)
+        self.pushButton3.show()
+        self.pushButton4.show()
 
     def stop_cam(self):
         self.cap1.release()
@@ -150,6 +155,8 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
         if not ret:
             print('read error!\n')
             self.label_5.setText("正面相机：打开失败")
+            self.pushButton1.hide()
+            self.pushButton2.hide()
             self.cam_time.stop()
             return
         #cv2.flip(img, 1, img)
@@ -171,6 +178,8 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
         if not ret_2:
             print('read error!\n')
             self.label_7.setText("侧面相机：打开失败")
+            self.pushButton3.hide()
+            self.pushButton4.hide()
             self.cam_time2.stop()
             return
         #cv2.flip(img_2, 1, img_2)
@@ -192,6 +201,5 @@ if __name__ == "__main__":
     win = MyMainWindow()
     win.showFullScreen()
     sys.exit(app.exec_())
-
 
 
