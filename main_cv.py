@@ -24,14 +24,28 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
         self.doubleSpinBox_2.setValue(self.width_step)
         self.cam_time = QtCore.QTimer()
         self.cam_time2 = QtCore.QTimer()
+        self.init_time = QtCore.QTimer()
         self.cam_time.timeout.connect(self.show_pic)
         self.cam_time2.timeout.connect(self.show_pic2)
-        self.actionExit.triggered.connect(self.close)
-        self.action_1.triggered.connect(self.start_grap)
-        self.action_2.triggered.connect(self.start_grap2)
+        self.init_time.timeout.connect(self.my_init)
         self.horizontalSlider.valueChanged.connect(self.update)
         self.setFocus()
+        self.init_time.start(100)
 
+
+    def my_init(self):
+        #填满窗体中空隙
+        self.pushButton_l.resize(self.pushButton.width() , 18)
+        self.pushButton_l.move(self.pushButton.x(),self.pushButton.y()+self.pushButton.height() - 8)
+        self.pushButton_l.lower()
+
+        self.verticalSlider.setValue(50)
+        self.horizontalSlider.setValue(50)
+
+        #设置操作label背景图
+        temp_pic = QPixmap('操作说明图.png').scaled(self.label_11.width(), self.label_11.height())
+        self.label_11.setPixmap(temp_pic)
+        self.init_time.stop()
     #键盘监控事件
     def keyPressEvent(self,event):
         if(event.key() == Qt.Key_Q):
@@ -127,7 +141,7 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
     def start_grap(self):
         self.start_time1 = time.time()
         self.frame1=0
-        self.cap1 = cv2.VideoCapture(0 + cv2.CAP_DSHOW)
+        self.cap1 = cv2.VideoCapture(1 + cv2.CAP_DSHOW)
         self.cam_time.start(60)
         self.label_5.setText("正面相机：运行")
         self.pushButton1.resize(1, self.label.height())
@@ -138,7 +152,7 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
     def start_grap2(self):
         self.start_time2 = time.time()
         self.frame2=0
-        self.cap2 = cv2.VideoCapture(0+ cv2.CAP_DSHOW)
+        self.cap2 = cv2.VideoCapture(2+ cv2.CAP_DSHOW)
         self.cam_time2.start(60)
         self.label_7.setText("侧面相机：运行")
         self.pushButton3.resize(self.label_2.width(), 1)
