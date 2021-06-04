@@ -35,7 +35,7 @@ class MyMainWindow(QMainWindow , Ui_MainWindow):
 
     def my_init(self):
         #填满窗体中空隙
-        self.pushButton_l.resize(self.pushButton.width() , 18)
+        self.pushButton_l.resize(self.pushButton.width() , 75)
         self.pushButton_l.move(self.pushButton.x(),self.pushButton.y()+self.pushButton.height() - 8)
         self.pushButton_l.lower()
 
